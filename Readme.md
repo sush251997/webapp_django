@@ -1,17 +1,18 @@
 Welcome to the Catalyst Count Web Application! This application is designed to allow users to upload and manage large volume CSV data, perform data filtering, and visualize the upload progress. This README file provides an overview of the application, its features, setup instructions, and other essential details.
 
-Overview:
+**Overview:**
 The Catalyst Count Web Application is built using Django 3.x/4.x, Postgres, and Bootstrap 4/5. It offers a seamless user experience for uploading large CSV data files, processing the data, and querying it using a user-friendly interface. Users can visualize the upload progress, filter data, and retrieve record counts based on applied filters.
 
-Getting Started:
+**Getting Started:**
 To run this application, you'll need the following software installed on your system:
 Python 3.x/Anaconda
 Visual Code Studio
 PostgreSQL
 Git
 
-Install the required dependencies:
+**Install the required dependencies:**
 pip install -r requirements.txt
+**Create a media folder below. catalyst_count folder and then start running the project**
 
 Set up environment variables using django-environ. Create a .env file in the project directory and provide necessary configurations like database settings, secret key, etc.
 
