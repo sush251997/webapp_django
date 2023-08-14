@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+
+    <style>
+        #loginform {
+            height: 70vh;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/userIndex">Upload Data</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/buildQuery">Query Builder</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/addUser">Add Users</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout" style="margin-left: 1100px;">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="row align-items-center" id="loginform">
+        <div class="mx-auto col-10 col-md-8 col-lg-6">
+            <h2>Upload Data</h2>
+            <form class="form-example" action="/buildQuery" method="post">
+                {% csrf_token %}
+
+                <div class="row">
+                    <div class="col">
+                        <input type="text" class="form-control" name="keywords" placeholder="keyword" required>
+                    </div>
+                    <div class="col">
+                        <select class="form-select" aria-label="Default select example" name="industry" required>
+                            <option value="">Industry</option>
+                            {% for i in industry %}
+                            <option value="{{i}}" style="color: black;">{{i}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col">
+                        <select class="form-select" aria-label="Default select example" name="foundedYear" required>
+                            <option value="">Year Founded</option>
+                            {% for i in cmp_year_founded %}
+                            <option value="{{i}}" style="color: black;">{{i}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <br>
+
+                <div class="row">
+                    <div class="col">
+                        <select class="form-select" aria-label="Default select example" name="city" required>
+                            <option value="">City</option>
+                            {% for i in cmp_city %}
+                            <option value="{{i}}" style="color: black;">{{i}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col">
+                        <select class="form-select" aria-label="Default select example" name="state" required>
+                            <option value="">State</option>
+                            {% for i in cmp_state %}
+                            <option value="{{i}}" style="color: black;">{{i}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col">
+                        <select class="form-select" aria-label="Default select example" name="country" required>
+                            <option value="">Country</option>
+                            {% for i in cmp_country %}
+                            <option value="{{i}}" style="color: black;">{{i}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <br>
+
+                <div class="row">
+                    <div class="col">
+                        <select class="form-select" aria-label="Default select example" name="fromEmployees" required>
+                            <option value="">Employees(From)</option>
+                            {% for i in cmp_year_founded %}
+                            <option value="{{i}}" style="color: black;">{{i}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col">
+                        <select class="form-select" aria-label="Default select example" name="toEmployees" required>
+                            <option value="">Employees(To)</option>
+                            {% for i in cmp_year_founded %}
+                            <option value="{{i}}" style="color: black;">{{i}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+
+                <button type="submit" class="btn btn-primary btn-customized mt-4">
+                    Upload
+                </button>
+                <br><br>
+                {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                    <div class="alert {% if message.tags %}alert-{{ message.tags }}" {% endif %}>
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </form>
+            <!-- Form end -->
+        </div>
+    </div>
+
+</body>
+
+
+</html>
