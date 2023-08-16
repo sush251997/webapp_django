@@ -12,12 +12,6 @@
         #loginform {
             height: 70vh;
         }
-
-        #navs {
-            height: 10vh;
-            display: flex;
-            align-items: center;
-        }
     </style>
 </head>
 
@@ -52,12 +46,79 @@
     <div class="row align-items-center" id="loginform">
         <div class="mx-auto col-10 col-md-8 col-lg-6">
             <h2>Upload Data</h2>
-            <form class="form-example" action="/userIndex" method="post" enctype="multipart/form-data">
+            <form class="form-example" action="/buildQuery" method="post">
                 {% csrf_token %}
-                <div class="form-group">
-                    <label for="userfiles">Browse File:</label>
-                    <input type="file" class="form-control userfiles" name="cmpFile" required>
+
+                <div class="row">
+                    <div class="col">
+                        <input type="text" class="form-control" name="keywords" placeholder="keyword" required>
+                    </div>
+                    <div class="col">
+                        <select class="form-select" aria-label="Default select example" name="industry" required>
+                            <option value="">Industry</option>
+                            {% for i in industry %}
+                            <option value="{{i}}" style="color: black;">{{i}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col">
+                        <select class="form-select" aria-label="Default select example" name="foundedYear" required>
+                            <option value="">Year Founded</option>
+                            {% for i in cmp_year_founded %}
+                            <option value="{{i}}" style="color: black;">{{i}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
                 </div>
+                <br>
+
+                <div class="row">
+                    <div class="col">
+                        <select class="form-select" aria-label="Default select example" name="city" required>
+                            <option value="">City</option>
+                            {% for i in cmp_city %}
+                            <option value="{{i}}" style="color: black;">{{i}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col">
+                        <select class="form-select" aria-label="Default select example" name="state" required>
+                            <option value="">State</option>
+                            {% for i in cmp_state %}
+                            <option value="{{i}}" style="color: black;">{{i}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col">
+                        <select class="form-select" aria-label="Default select example" name="country" required>
+                            <option value="">Country</option>
+                            {% for i in cmp_country %}
+                            <option value="{{i}}" style="color: black;">{{i}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <br>
+
+                <div class="row">
+                    <div class="col">
+                        <select class="form-select" aria-label="Default select example" name="fromEmployees" required>
+                            <option value="">Employees(From)</option>
+                            {% for i in cmp_year_founded %}
+                            <option value="{{i}}" style="color: black;">{{i}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col">
+                        <select class="form-select" aria-label="Default select example" name="toEmployees" required>
+                            <option value="">Employees(To)</option>
+                            {% for i in cmp_year_founded %}
+                            <option value="{{i}}" style="color: black;">{{i}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
 
                 <button type="submit" class="btn btn-primary btn-customized mt-4">
                     Upload
