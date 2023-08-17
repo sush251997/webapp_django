@@ -7,6 +7,9 @@ import pandas as pd
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from allauth.account.views import LoginView, SignupView, LogoutView
+from allauth.account.models import EmailAddress
+from django.contrib.auth.decorators import login_required
+import json
 
 global upload_Path
 upload_Path = ""
@@ -32,6 +35,7 @@ def loginUser(request):
         password = request.POST['password'] 
 
         print(email,password)
+        print(type(email),type(password))
 
         con = dbconnection()
         cursor = con.cursor()
@@ -52,6 +56,7 @@ def loginUser(request):
 
 @login_required
 def userIndex(request):
+
     if request.method=="POST":
         global upload_Path
 
@@ -80,9 +85,9 @@ def userIndex(request):
             cmp_emp_estimate = list(df["current employee estimate"].unique())
             total_cmp_emp = list(df["total employee estimate"].unique())
 
-            for name,link,year_founded,type,size,location,country,linkedin,emp_stimate,total_estimate in zip(cmp_name, cmp_link,cmp_year_founded,cmp_type,cmp_Size_range,cmp_location,cmp_country,cmp_linkedin,cmp_emp_estimate,total_cmp_emp):
+            for name,link,year_founded,cmp_type,size,location,country,linkedin,emp_stimate,total_estimate in zip(cmp_name, cmp_link,cmp_year_founded,cmp_type,cmp_Size_range,cmp_location,cmp_country,cmp_linkedin,cmp_emp_estimate,total_cmp_emp):
                 sql = "insert into app_company(cmp_name, cmp_link,cmp_year_founded,cmp_type,comp_size_range,cmp_location,cmp_country,cmp_linkedin,cmp_emp_estimate,total_cmp_emp) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-                val = (name,link,year_founded,type,size,location,country,linkedin,emp_stimate,total_estimate)
+                val = (name,link,year_founded,cmp_type,size,location,country,linkedin,emp_stimate,total_estimate)
                 con = dbconnection()
                 cursor = con.cursor()
                 cursor.execute(sql,val)
@@ -103,9 +108,9 @@ def userIndex(request):
             cmp_emp_estimate = list(df["current employee estimate"])
             total_cmp_emp = list(df["total employee estimate"])
 
-            for name,link,year_founded,type,size,location,country,linkedin,emp_stimate,total_estimate in zip(cmp_name, cmp_link,cmp_year_founded,cmp_type,cmp_Size_range,cmp_location,cmp_country,cmp_linkedin,cmp_emp_estimate,total_cmp_emp):
+            for name,link,year_founded,cmp_type,size,location,country,linkedin,emp_stimate,total_estimate in zip(cmp_name, cmp_link,cmp_year_founded,cmp_type,cmp_Size_range,cmp_location,cmp_country,cmp_linkedin,cmp_emp_estimate,total_cmp_emp):
                 sql = "insert into app_company(cmp_name, cmp_link,cmp_year_founded,cmp_type,cmp_Size_range,cmp_location,cmp_country,cmp_linkedin,cmp_emp_estimate,total_cmp_emp) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-                val = (name,link,year_founded,type,size,location,country,linkedin,emp_stimate,total_estimate)
+                val = (name,link,year_founded,cmp_type,size,location,country,linkedin,emp_stimate,total_estimate)
                 con = dbconnection()
                 cursor = con.cursor()
                 cursor.execute(sql,val)
@@ -187,12 +192,38 @@ def addUser(request):
     con = dbconnection()
     cursor = con.cursor()
 
-    sql = "select user_name,user_email from app_userlogin"
+    sql = "select user_name, user_email from app_userlogin"
     cursor.execute(sql)
     res = cursor.fetchall()
     result = list(res)
     All_uNames = [i[0] for i in result]
     All_uEmails = [i[1] for i in result]
+
+
+    cursor.execute('SELECT extra_data FROM socialaccount_socialaccount;')
+    res = cursor.fetchall()
+    result = list(res) 
+
+    # print(result)
+    
+    for i in result:
+        print(i)
+        # break
+        account_dict = json.loads(i[0])
+
+        social_email = str(account_dict["email"])
+        All_uEmails.append(social_email)
+
+        social_name = str(account_dict["name"])
+        All_uNames.append(social_name)
+
+        social_uname = str(account_dict["given_name"])
+
+    # print()
+    # print("All_uNames,All_uEmails")
+    # print(All_uNames,All_uEmails)
+    # print()
+
 
     context = {
         "All_unames":zip(All_uNames,All_uEmails)
